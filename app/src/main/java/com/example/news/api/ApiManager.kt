@@ -7,11 +7,13 @@ import retrofit2.create
 
 class ApiManager {
     companion object{
-        var retrofit : Retrofit? = null
+        private var retrofit : Retrofit? = null
+        val apiKey = "d345bd7c207246288e20202fcd1aab03"
+        @Synchronized
         private fun getInstance():Retrofit{
             if (retrofit == null){
                 retrofit = Retrofit.Builder()
-                    .baseUrl("/v2/top-headlines/sources")
+                    .baseUrl("https://newsapi.org")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             }

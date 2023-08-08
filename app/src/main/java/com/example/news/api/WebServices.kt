@@ -1,5 +1,6 @@
 package com.example.news.api
 
+import com.example.news.model.ArticlesResponse
 import com.example.news.model.TabsResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -10,4 +11,10 @@ interface WebServices {
     fun getTabs(
         @Query("apiKey") apikey : String
     ): Call<TabsResponse>
+
+    @GET("/v2/everything")
+    fun getArticles(
+        @Query("apiKey") apikey : String,
+        @Query("sources") tab : String
+    ): Call<ArticlesResponse>
 }
