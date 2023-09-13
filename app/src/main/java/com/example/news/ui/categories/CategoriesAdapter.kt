@@ -10,7 +10,12 @@ import com.example.news.databinding.ItemCategoriesBinding
 class CategoriesAdapter (val items : List<Categories>)
     :RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
     class ViewHolder (val itemBinding:ItemCategoriesBinding)
-        : RecyclerView.ViewHolder(itemBinding.root)
+        : RecyclerView.ViewHolder(itemBinding.root){
+            fun bind(category: Categories){
+                itemBinding.category = category
+                itemBinding.invalidateAll()
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewBinding = ItemCategoriesBinding
@@ -28,6 +33,15 @@ class CategoriesAdapter (val items : List<Categories>)
                 items[position].bg_colorId)
         )
         holder.itemBinding.image.setImageResource(items[position].imageId)
-        holder.itemBinding.title.setText(items[position].name)
+        holder.bind(items[position])
+        onItemCLickListener?.let {clickListener->
+            holder.itemBinding.container.setOnClickListener{
+                clickListener.onItemClick(position,items[position])
+            }
+        }
+    }
+    var onItemCLickListener : OnItemClickListener? =null
+    interface OnItemClickListener{
+        fun onItemClick(position: Int,item :Categories)
     }
 }

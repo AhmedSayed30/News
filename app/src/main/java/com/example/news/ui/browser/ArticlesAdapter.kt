@@ -10,7 +10,10 @@ import com.example.news.model.Article
 class ArticlesAdapter(var items:List<Article>?) :RecyclerView.Adapter<ArticlesAdapter.viewHolder>(){
 
     class viewHolder(val viewBinding:ItemArticleBinding) :RecyclerView.ViewHolder(viewBinding.root){
-
+        fun bind(article: Article?){
+            viewBinding.article = article
+            viewBinding.executePendingBindings()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewHolder {
@@ -25,9 +28,7 @@ class ArticlesAdapter(var items:List<Article>?) :RecyclerView.Adapter<ArticlesAd
     override fun getItemCount(): Int = items?.size?:0
 
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
-        holder.viewBinding.sourseArticle.text =  items?.get(position)?.author
-        holder.viewBinding.descriptionArticle.text = items?.get(position)?.description
-        holder.viewBinding.dateArticle.text = items?.get(position)?.publishedAt
+        holder.bind(items?.get(position) )
         Glide.with(holder.itemView)
             .load(items?.get(position)?.urlToImage)
             .into(holder.viewBinding.igArticle)
